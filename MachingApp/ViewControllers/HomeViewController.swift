@@ -55,11 +55,11 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
             FirebaseFromUser()
-        
     }
+    
     func FirebaseFromUser(){
         if !receiveuids.isEmpty{return}
-
+        
         users=[]
         guard let uid=Auth.auth().currentUser?.uid else {return}
         Firestore.fetchUserFromFirestore(uid:uid) {[weak self] (user,match ) in
@@ -129,9 +129,7 @@ class HomeViewController: UIViewController {
     }
     
     func AlertToView(view:UIAlertController){
-        present(view, animated: true){
-            
-        }
+        present(view, animated: true)
     }
     func showThank(){
         
@@ -166,8 +164,11 @@ class HomeViewController: UIViewController {
                 baseView.removeFromSuperview()
             }
         }
+        
         label_1.anchor(top:baseView.topAnchor,left: baseView.leftAnchor,right: baseView.rightAnchor,toppadding: 15)
         label_2.anchor(bottom:baseView.bottomAnchor,left: baseView.leftAnchor, right:baseView.rightAnchor,bottompadding: 15)
+        
+        
         baseView.anchor(top:view.topAnchor,bottom: view.bottomAnchor,left:view.leftAnchor,right: view.rightAnchor,toppadding:300,bottompadding: 470, leftpadding: 50,rightpadding: 50)
     }
     

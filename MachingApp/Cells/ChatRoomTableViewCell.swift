@@ -11,7 +11,6 @@ import Nuke
 
 class ChatRoomTableViewCell:UITableViewCell{
     
-    
     var message:Message?
     
     @IBOutlet weak var userImageView: UIImageView!
