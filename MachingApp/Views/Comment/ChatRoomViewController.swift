@@ -185,7 +185,6 @@ extension ChatRoomViewController:chatInputAccessaryViewDelegate{
                     print("メッセージの取得に保存しました",err)
                     return
                 }
-//                print("メッセージの保存に施行しました")
         }
         let latestmessageId=[
             "latestMessageId": messageId
@@ -195,7 +194,6 @@ extension ChatRoomViewController:chatInputAccessaryViewDelegate{
             if let err = err{
                 print("chatRoomのアップrデートに失敗しました",err)
             }
-//            print("成功しました")
         }
     }
     

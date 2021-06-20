@@ -26,7 +26,7 @@ class LikedViewController:UIViewController,funcdelegate{
         view.backgroundColor = .rgb(red: 0, green: 0, blue: 0, alpha: 0.0)
         return view
     }()
-
+    
     
     lazy var CollectionView:UICollectionView={
         
@@ -72,28 +72,25 @@ class LikedViewController:UIViewController,funcdelegate{
             }
         }
     }
-
+    
     private func setupLayout(){
         view.backgroundColor = .white
         view.addSubview(CollectionView)
         CollectionView.anchor(top:view.safeAreaLayoutGuide.topAnchor,bottom:view.bottomAnchor,left: view.leftAnchor,right: view.rightAnchor)
     }
+    
     func dontLike(tag:Int){
-        
         guard let uid = Auth.auth().currentUser?.uid else {return}
         if users.isEmpty{return}
         let targetuid=users[tag].myuid
         Firestore.deleteLikedFromFirestore(uid: uid, targetsuid: targetuid) {
             Firestore.removeMatchuid(uid: uid, targetsuid: targetuid) {
-                
             }
         }
-        
     }
     
-
     func setTalkuser(tag:Int){
-
+        
         guard let uid = Auth.auth().currentUser?.uid else {return}
         if users.isEmpty{return}
         let partnerUid=self.users[tag].myuid
@@ -109,7 +106,7 @@ class LikedViewController:UIViewController,funcdelegate{
 }
 
 extension LikedViewController:UICollectionViewDelegate,UICollectionViewDataSource{
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return users.count
@@ -119,14 +116,14 @@ extension LikedViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         let cell=CollectionView.dequeueReusableCell(
             withReuseIdentifier:"MyCollectionViewCell",
             for: indexPath) as! MyCollectionViewCell
-                
+        
         cell.user=users[indexPath.row]
         cell.tag=indexPath.row
         cell.delegate=self
-
+        
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell=CollectionView.cellForItem(at: indexPath) as? MyCollectionViewCell else {return}
         let position=CollectionView.centerPosition(cell: cell)
@@ -137,7 +134,7 @@ extension LikedViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         gesture.cell=cell
         self.bakView.addGestureRecognizer(gesture)
         collectionView.bringSubviewToFront(cell)
-
+        
         UIView.animate(withDuration: 0.5) {
             cell.savebutton.isHidden=true
             cell.deletebutton.isHidden=true
@@ -148,7 +145,7 @@ extension LikedViewController:UICollectionViewDelegate,UICollectionViewDataSourc
             }
         }
     }
-
+    
     @objc func backCell(_ recognizer:Mygestrue){
         guard let cell=recognizer.cell else {return}
         UIView.animate(withDuration: 0.4) {

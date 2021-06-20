@@ -20,7 +20,7 @@ class ProfileImageViewController:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-     }
+    }
     
     private func setupLayout(){
         
@@ -58,7 +58,7 @@ class ProfileImageViewController:UIViewController{
         ProfileViewController.backToimage=true
         dismiss(animated: true)
     }
-
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -72,9 +72,9 @@ class ProfileImageViewController:UIViewController{
 
 extension ProfileImageViewController:UIImagePickerControllerDelegate,
                                      UINavigationControllerDelegate{
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
+        
         if let editImage=info[.editedImage] as? UIImage{
             imageView.image=editImage
         }else if let origiinalImage=info[.originalImage] as? UIImage{

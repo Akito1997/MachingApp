@@ -31,7 +31,7 @@ class ProfileViewController:UIViewController{
     var bannerView:GADBannerView={
         let bannerView=GADBannerView(adSize: kGADAdSizeBanner)
         bannerView.adUnitID="ca-app-pub-9380908879322595/7125048451"
-       
+        
         return bannerView
     }()
     
@@ -51,13 +51,14 @@ class ProfileViewController:UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
-        
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         bannerView.rootViewController=self
         bannerView.load(GADRequest())
+    
         view.backgroundColor = .white
         setupLayout()
     }
@@ -66,7 +67,7 @@ class ProfileViewController:UIViewController{
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -89,10 +90,10 @@ class ProfileViewController:UIViewController{
         }
     }
     @objc func keyboardWillHide(notification:NSNotification) {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y = 0
-            }
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
         }
+    }
     
     static var backToimage=false
     
@@ -140,7 +141,7 @@ class ProfileViewController:UIViewController{
             }
         }
     }
-
+    
     private func setupLayout(){
         //viewの配置を作成
         profileImageView.backgroundColor = .black
@@ -172,7 +173,7 @@ class ProfileViewController:UIViewController{
             //実際の処理
             do{
                 try? Auth.auth().signOut()
-//                UserDefaults.standard.removeAll()
+                //                UserDefaults.standard.removeAll()
                 self.tabBarController?.selectedIndex=0
             }
         })
@@ -344,21 +345,27 @@ extension ProfileViewController{
             Firestore.setUserDateToFirestore(document: dic, uid:uid) { (sucess) in
                 if sucess{
                     Firestore.addUser(uid: uid)
-                    self.showSave()
+                    self.showMessage(text:"保存に成功しました")
+                }else{
+                    self.showMessage(text:"保存に失敗しました")
                 }
             }
             ProfileViewController.firstflag=false
         }else{
-            Firestore.upDateUserToFirestore(document: dic, uid: uid) { (finish) in
-                self.showSave()
+            Firestore.upDateUserToFirestore(document: dic, uid: uid) { (sucess) in
+                if sucess{
+                    self.showMessage(text:"保存に成功しました")
+                }else{
+                    self.showMessage(text:"保存に失敗しました")
+                }
             }
         }
     }
     
-    func showSave(){
+    func showMessage(text:String){
         
         let label_1=UILabel()
-        label_1.text = "保存に成功しました"
+        label_1.text = text
         label_1.backgroundColor = .clear
         label_1.font = .boldSystemFont(ofSize: 23)
         label_1.textColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
@@ -372,20 +379,24 @@ extension ProfileViewController{
         baseView.alpha=0
         baseView.layer.cornerRadius = 15
         baseView.clipsToBounds=true
-
-        UIView.animate(withDuration: 1) {
+        
+        UIView.animate(withDuration: 1.5) {
+            baseView.center.y-=100
             baseView.alpha=1
         } completion: { (finish) in
             UIView.animate(withDuration: 1) {
+                baseView.center.y+=100
                 baseView.alpha=0
             }completion: { (f) in
                 baseView.removeFromSuperview()
             }
         }
+        
         label_1.anchor(centerY:baseView.centerYAnchor,centerX: baseView.centerXAnchor)
-        baseView.anchor(centerY: view.centerYAnchor, centerX:view.centerXAnchor,width: 250,height: 70)
+        baseView.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor, centerX:view.centerXAnchor,width: 250,height: 70,bottompadding: 10)
     }
 }
+
 extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

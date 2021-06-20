@@ -10,13 +10,12 @@ import Firebase
 import  Nuke
 
 class ControlView:UITabBarController{
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTab()
-        
     }
-
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         tabBar.barTintColor = .white
@@ -46,7 +45,7 @@ class ControlView:UITabBarController{
         forthViewController.tabBarItem.imageInsets=UIEdgeInsets(top: a+3, left: a+b-10, bottom: a-7, right: a+b+10)
         
         viewControllers = [firstViewController, secondViewController,nav,forthViewController]
-
+        
         tabBar.tintColor = .rgb(red: 103, green: 190, blue: 141)
     }
 }

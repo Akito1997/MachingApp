@@ -28,7 +28,7 @@ class LoginViewController:UIViewController{
         view.axis = .horizontal
         return view
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,7 @@ class LoginViewController:UIViewController{
         
         emailTextField.delegate=self
         passwordTextField.delegate=self
-                
+        
         let baseStackView=UIStackView(arrangedSubviews: [emailTextField,passwordTextField,loginButton])
         baseStackView.axis = .vertical
         baseStackView.distribution = .fillEqually
@@ -73,7 +73,7 @@ class LoginViewController:UIViewController{
         let layer=CAGradientLayer()
         let startColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1).cgColor
         let endColor = #colorLiteral(red: 0, green: 0.9810667634, blue: 0.5736914277, alpha: 1).cgColor
-
+        
         
         layer.colors=[startColor,endColor]
         layer.locations=[0.0,1,3]
@@ -122,7 +122,6 @@ extension LoginViewController:UITextFieldDelegate{
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         guard let text=textField.text else {return}
-        
         switch textField.tag {
         case 0:
             if (text.contains("@ec.usp.ac.jp") || text.contains("@st.shiga-u.ac.jp")) {

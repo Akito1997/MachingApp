@@ -174,33 +174,27 @@ class RegisterViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if Auth.auth().currentUser != nil{
-            Auth.auth().currentUser?.reload(completion: { error in
-                if error == nil {
-                    if Auth.auth().currentUser?.isEmailVerified == true {
-                        print(2)
-                        HomeViewController.registerflag=true
-                        ProfileViewController.firstflag=true
-                        self.dismiss(animated: true)
-                    } else if Auth.auth().currentUser?.isEmailVerified == false {
-                        let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。メールのリンクをタップして認証を完了してください。", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        let resend: UIAlertAction = UIAlertAction(title: "再送信", style: UIAlertAction.Style.cancel, handler:{
-                            // キャンセルボタンが押された時の処理をクロージャ実装する
-                            (action: UIAlertAction!) -> Void in
-                            //実際の処理
-                            Auth.auth().currentUser?.sendEmailVerification { (error) in
-                              // ...
-                            }
-                        })
-                        alert.addAction(resend)
-                        self.present(alert, animated: true, completion: nil)
-                    }
+        if Auth.auth().currentUser == nil{return }
+        Auth.auth().currentUser?.reload(completion: { error in
+            if error == nil {
+                if Auth.auth().currentUser?.isEmailVerified == true {
+                    HomeViewController.registerflag=true
+                    ProfileViewController.firstflag=true
+                    self.dismiss(animated: true)
+                } else if Auth.auth().currentUser?.isEmailVerified == false {
+                    let alert = UIAlertController(title: "確認用メールを送信しているので確認をお願いします。", message: "まだメール認証が完了していません。メールのリンクをタップして認証を完了してください。", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    let resend = UIAlertAction(title: "再送信", style: UIAlertAction.Style.cancel, handler:{
+                        (action: UIAlertAction!) -> Void in
+                        Auth.auth().currentUser?.sendEmailVerification { (error) in
+                        }
+                    })
+                    alert.addAction(resend)
+                    self.present(alert, animated: true, completion: nil)
                 }
-            })
-        }
-        
-}
+            }
+        })
+    }
     
     private func createUser(){
         

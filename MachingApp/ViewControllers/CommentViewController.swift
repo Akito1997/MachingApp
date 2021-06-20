@@ -14,7 +14,7 @@ class CommentViewController:UIViewController{
     private let CommenttableView=CommentTableView()
     private let cellID="cellID"
     private var chatrooms=[ChatRoom]()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +22,7 @@ class CommentViewController:UIViewController{
         CommenttableView.dataSource=self
         setupLayout()
         fetchChatroomsInfoFirestore()
-
+        
     }
     private func fetchChatroomsInfoFirestore(){
         Firestore.fetchChatroomFromFirestore{ (chatroom) in
@@ -36,16 +36,16 @@ class CommentViewController:UIViewController{
                     }
                 }
             }
-
+            
             for (i,cm) in zip(self.chatrooms.indices,self.chatrooms){
                 if id == cm.documentId{
                     self.chatrooms.remove(at: i)
                     //バッジで通知する
                     if let tabItem = self.tabBarController?.tabBar.items?[2] {
-                            tabItem.badgeColor = .clear
-                            tabItem.badgeValue = "●"
-                            let badgeTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.red, NSAttributedString.Key.font : UIFont.italicSystemFont(ofSize:  10)]
-                            tabItem.setBadgeTextAttributes(badgeTextAttributes, for: .normal)
+                        tabItem.badgeColor = .clear
+                        tabItem.badgeValue = "●"
+                        let badgeTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.red, NSAttributedString.Key.font : UIFont.italicSystemFont(ofSize:  10)]
+                        tabItem.setBadgeTextAttributes(badgeTextAttributes, for: .normal)
                     }
                 }
             }
@@ -70,16 +70,16 @@ class CommentViewController:UIViewController{
         navigationController?.navigationBar.barTintColor = .white
         //backボタンを消す
         self.navigationItem.backBarButtonItem = UIBarButtonItem(
-                   title: "",
-                   style: .plain,
-                   target: nil,
-                   action: nil)
+            title: "",
+            style: .plain,
+            target: nil,
+            action: nil)
         view.backgroundColor = .white
         CommenttableView.backgroundColor = .white
         view.addSubview(CommenttableView)
         CommenttableView.anchor(top:view.topAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor,left: view.leftAnchor,right: view.rightAnchor,toppadding:100)
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let tabItem = self.tabBarController?.tabBar.items?[2] {
@@ -96,7 +96,7 @@ extension CommentViewController:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
+        
         return chatrooms.count
     }
     
@@ -147,7 +147,7 @@ extension CommentViewController:UITableViewDelegate,UITableViewDataSource{
             let cancelAction: UIAlertAction = UIAlertAction(title: "いいえ", style: UIAlertAction.Style.cancel, handler:{
                 // キャンセルボタンが押された時の処理をクロージャ実装する
                 (action: UIAlertAction!) -> Void in
-
+                
             })
             //UIAlertControllerにキャンセルボタンと確定ボタンをActionを追加
             alert.addAction(cancelAction)
@@ -203,8 +203,8 @@ extension CommentViewController:UITableViewDelegate,UITableViewDataSource{
         baseView.alpha=0
         baseView.layer.cornerRadius = 15
         baseView.clipsToBounds=true
-
-
+        
+        
         UIView.animate(withDuration: 1) {
             baseView.alpha=1
         } completion: { (finish) in

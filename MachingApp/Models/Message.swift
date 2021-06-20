@@ -14,7 +14,6 @@ class Message{
     let message:String
     let uid:String
     let createdAt:Timestamp
-    
     var partnerUser:User?
     var timeflag=false
     

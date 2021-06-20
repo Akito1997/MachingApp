@@ -20,9 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        
-//        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers =
-//            [ "2077ef9a63d2b398840261c8221a0c9b" ] 
+
         FirebaseApp.configure()
                 
         window=UIWindow(frame: UIScreen.main.bounds)

@@ -121,6 +121,8 @@ extension Firestore{
 
             if let err=err{
                 print("ユーザー情報の保存に失敗",err)
+                completion(false)
+                return
             }
             completion(true)
         }
@@ -129,7 +131,9 @@ extension Firestore{
                                        completion:@escaping (Bool) -> ()){
         Firestore.firestore().collection("users").document(uid).updateData(document){ (err) in
             if let err=err{
-                print(err)
+                print(err.localizedDescription)
+                completion(false)
+                return
             }
             completion(true)
         }
